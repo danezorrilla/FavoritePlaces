@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "784218613613",
+    "firebase_url": "https://favoriteplaces-2b88f.firebaseio.com",
+    "project_id": "favoriteplaces-2b88f",
+    "storage_bucket": "favoriteplaces-2b88f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784218613613:android:15ceaa844bd8337c385c64",
+        "android_client_info": {
+          "package_name": "com.bb.favoriteplaces"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784218613613-f79cuakbpltpda2i7f718e0769f0alpa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bb.favoriteplaces",
+            "certificate_hash": "68b33d98de8ccb33e2954b7fcefb7210b3a9136b"
+          }
+        },
+        {
+          "client_id": "784218613613-n9b1h0ubbs1f0tvghda9si9avgot4c5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMtFAS2CrLfxMjwt5DURnsdDyYZMpcyd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784218613613-n9b1h0ubbs1f0tvghda9si9avgot4c5e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
