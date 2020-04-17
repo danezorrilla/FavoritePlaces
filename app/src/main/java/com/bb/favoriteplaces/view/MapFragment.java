@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
+import com.google.firebase.auth.FirebaseAuth;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -213,11 +214,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     @Override
     public void onInfoWindowClick(Marker marker) {
+        String name = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Log.d("TAG_XXX", "USERNAME: " + name);
+
         Log.d("TAG_XXX", "Info window is clicked");
         Log.d("TAG_XXX", "Location: " + marker.getPosition());
 
         Place favoritePlace = new Place(marker.getTitle(), marker.getPosition().latitude,
-                marker.getPosition().longitude);
+                marker.getPosition().longitude, name);
 
         googlePlacesViewModel.addNewPlace(favoritePlace);
     }

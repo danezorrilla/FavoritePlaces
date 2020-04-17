@@ -1,18 +1,16 @@
-package com.bb.favoriteplaces;
+package com.bb.favoriteplaces.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bb.favoriteplaces.view.FavoritePlaces;
-import com.bb.favoriteplaces.view.MapFragment;
-import com.bb.favoriteplaces.viewmodel.GooglePlacesViewModel;
+import com.bb.favoriteplaces.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,8 +23,13 @@ public class MainActivity extends AppCompatActivity {
     EditText loginUsername;
     EditText loginPassword;
 
+    Button viewFavoritePlaces;
+
     MapFragment mapFragment = new MapFragment();
-    FavoritePlaces favoritePlaceFragment = new FavoritePlaces();
+    FavoritePlacesFragment favoritePlaceFragment = new FavoritePlacesFragment();
+
+    String name;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
         loginUsername = findViewById(R.id.login_username);
         loginPassword = findViewById(R.id.login_password);
+        viewFavoritePlaces = findViewById(R.id.view_favorite_places);
+
+        name = mAuth.getCurrentUser().getEmail();
+        Log.d("TAG_X", "USERNAME: " + name);
+
     }
 
     public void openMapFragment() {
@@ -64,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Log.d("TAG_X", "Sign In Successful");
                             openMapFragment();
+                            viewFavoritePlaces.setVisibility(View.VISIBLE);
                         }else{
                             Log.d("TAG_X", "Sign In Failed", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed",
@@ -95,6 +104,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    public void backToMain(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .remove(favoritePlaceFragment)
+                .commit();
     }
 
 }

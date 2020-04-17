@@ -8,13 +8,16 @@ public class Place {
 
     private Double PlaceLng;
 
+    private String User;
+
     public Place() {
     }
 
-    public Place(String placeTitle, Double placeLat, Double placeLng) {
+    public Place(String placeTitle, Double placeLat, Double placeLng, String User) {
         PlaceTitle = placeTitle;
         PlaceLat = placeLat;
         PlaceLng = placeLng;
+        this.User = User;
     }
 
     public String getPlaceTitle() {
@@ -39,5 +42,13 @@ public class Place {
 
     public void setPlaceLng(Double placeLng) {
         PlaceLng = placeLng;
+    }
+
+    public String getUser() {
+        return User;
+    }
+
+    public void setUser(String user) {
+        this.User = user;
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.FavoritePlaces"
+    tools:context=".view.FavoritePlacesFragment"
     android:background="#FFFFFF"
     android:clickable="true"
     >
@@ -17,7 +17,7 @@
             android:id="@+id/return_to_main"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="returnToMain"
+            android:clickable="true"
             android:text="Return To Main"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

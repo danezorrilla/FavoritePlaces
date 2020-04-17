@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.bb.favoriteplaces.database.FavoritePlacesDB;
-import com.bb.favoriteplaces.model.FireUser;
 import com.bb.favoriteplaces.model.GooglePlaces;
 import com.bb.favoriteplaces.model.Place;
 import com.bb.favoriteplaces.network.GooglePlacesRetrofit;
@@ -19,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -49,8 +49,6 @@ public class GooglePlacesViewModel extends AndroidViewModel {
 
         googlePlacesRetrofit = new GooglePlacesRetrofit();
 
-        mAuth = FirebaseAuth.getInstance();
-
         reference = FirebaseDatabase.getInstance().getReference().child("favorite_places");
     }
 
@@ -65,8 +63,10 @@ public class GooglePlacesViewModel extends AndroidViewModel {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoritePlaceList.clear();
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     Place currentPlace = ds.getValue(Place.class);
+                    if(currentPlace.getUser().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail()))
                     favoritePlaceList.add(currentPlace);
                 }
                 favoritePlaceObservable.onNext(favoritePlaceList);
@@ -81,26 +81,29 @@ public class GooglePlacesViewModel extends AndroidViewModel {
         return favoritePlaceObservable;
     }
 
-    public void registerUser(FireUser user){
-        mAuth.createUserWithEmailAndPassword(user.getUserName(), user.getUserPassword())
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(getApplication(), "User Creation", Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(getApplication(), task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-    }
-
     public void addNewPlace(Place place){
         String databaseKey = reference.push().getKey();
         if(databaseKey != null)
             reference.child(databaseKey).setValue(place);
     }
 
+    public void deletePlace(Place place){
+        Query deletePlaceQuery = reference.orderByChild("placeTitle").equalTo(place.getPlaceTitle());
 
+        deletePlaceQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    ds.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
 }

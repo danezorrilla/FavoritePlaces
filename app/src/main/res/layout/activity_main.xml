@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <EditText
         android:id="@+id/login_username"
@@ -55,7 +55,9 @@
         android:id="@+id/view_favorite_places"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:onClick="openFavoritePlacesFragment"
         android:text="View Favorites"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -68,14 +70,13 @@
         app:layout_constraintBottom_toTopOf="@+id/view_favorite_places"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/favorite_places_list_fragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:elevation="8dp"
-        android:onClick="openFavoritePlacesFragment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

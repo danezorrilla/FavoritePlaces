@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.bb.favoriteplaces.R;
 import com.bb.favoriteplaces.adapter.FavoritePlacesAdapter;
@@ -23,19 +24,14 @@ import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class FavoritePlaces extends Fragment {
+public class FavoritePlacesFragment extends Fragment implements FavoritePlacesAdapter.DeleteInterface {
 
     private GooglePlacesViewModel googlePlacesViewModel;
     private CompositeDisposable compositeDisposable;
 
     RecyclerView favoritePlacesList;
 
-    public FavoritePlaces() {
-        // Required empty public constructor
-    }
+    Button returnToMainButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,17 +53,39 @@ public class FavoritePlaces extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         favoritePlacesList = view.findViewById(R.id.favorite_place_list);
+        returnToMainButton = view.findViewById(R.id.return_to_main);
+
+        returnToMainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                returnToMainButton();
+            }
+        });
+
         compositeDisposable = new CompositeDisposable();
         compositeDisposable.add(googlePlacesViewModel.getFavoritePlacesList().subscribe(FavoritePlaceList -> {
             displayFavoritePlaces(FavoritePlaceList);
         }));
+
     }
 
     private void displayFavoritePlaces(List<Place> favoritePlaceList){
-        FavoritePlacesAdapter favoritePlacesAdapter = new FavoritePlacesAdapter(favoritePlaceList);
+        FavoritePlacesAdapter favoritePlacesAdapter = new FavoritePlacesAdapter(favoritePlaceList, this);
         favoritePlacesList.setLayoutManager(new LinearLayoutManager(getContext()));
         favoritePlacesList.setAdapter(favoritePlacesAdapter);
     }
 
-    public void returnToMain(View view){}
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
+    public void returnToMainButton(){
+        ((MainActivity)getContext()).backToMain();
+    }
+
+    @Override
+    public void deletePlace(Place place) {
+        googlePlacesViewModel.deletePlace(place);
+    }
 }
